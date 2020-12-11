@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { postUpdated, selectPosyById } from './postsSlice'
+import { postUpdated, selectPostById } from './postsSlice'
 import { useHistory } from 'react-router-dom'
 
 export const UpdatePostForm = ({match}) => {
@@ -8,7 +8,8 @@ export const UpdatePostForm = ({match}) => {
     const dispatch = useDispatch()
     const history = useHistory()
 
-    const post = useSelector(state => selectPosyById(state, postID))
+    var post = useSelector(state => selectPostById(state, postID))
+    if(!post) post = { title: null, content:null } 
     const [title, setTitle] = useState(post.title)
     const [content, setContent] = useState(post.content)
 
@@ -28,7 +29,7 @@ export const UpdatePostForm = ({match}) => {
         history.push(`/posts/${postID}`)
     }
 
-    if(!post) {
+    if(!post.title) {
         return (
             <section>
                 Not Found.
